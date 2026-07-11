@@ -1,0 +1,7 @@
+Micrographs processed: 82
+Total filaments (tube-ID grouped): 1022
+Mean length: 134.57 nm
+Std dev: 155.99 nm
+Min / Max: 38.47 / 1323.39 nm
+
+Per-filament lengths written to: filament_lengths_tubeid.csv

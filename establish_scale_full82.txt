@@ -1,0 +1,129 @@
+=== establish_scale.py -- Task 0 pixel-size triangulation ===
+Input directory: /auto_nfs/rodriguez1/kmc012/__crYOLO/TMV/output_1/CBOX
+.cbox files found: 82
+
+--- Per-file box counts and _EstWidth (px) ---
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0001.cbox                n_boxes= 201  EstWidth median=17.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0002.cbox                n_boxes= 119  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0003.cbox                n_boxes=  66  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0004.cbox                n_boxes=  69  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0005.cbox                n_boxes=  56  EstWidth median=16.50  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0006.cbox                n_boxes=  52  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0007.cbox                n_boxes=  52  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0008.cbox                n_boxes= 127  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0009.cbox                n_boxes= 124  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0010.cbox                n_boxes=  90  EstWidth median=17.00  IQR=[17.00, 19.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0011.cbox                n_boxes= 126  EstWidth median=18.00  IQR=[18.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0012.cbox                n_boxes=  46  EstWidth median=17.00  IQR=[17.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0013.cbox                n_boxes= 113  EstWidth median=20.00  IQR=[19.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0014.cbox                n_boxes= 143  EstWidth median=17.00  IQR=[17.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0015.cbox                n_boxes= 242  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0016.cbox                n_boxes= 145  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0017.cbox                n_boxes=  54  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0018.cbox                n_boxes= 180  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0019.cbox                n_boxes= 130  EstWidth median=17.00  IQR=[17.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0020.cbox                n_boxes= 101  EstWidth median=17.00  IQR=[17.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0021.cbox                n_boxes= 337  EstWidth median=17.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0022.cbox                n_boxes= 227  EstWidth median=17.00  IQR=[16.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0023.cbox                n_boxes=  77  EstWidth median=17.00  IQR=[17.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0024.cbox                n_boxes=  60  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0025.cbox                n_boxes=  79  EstWidth median=17.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0026.cbox                n_boxes=  58  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0027.cbox                n_boxes= 113  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0028.cbox                n_boxes=  48  EstWidth median=18.00  IQR=[18.00, 19.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0029.cbox                n_boxes=  60  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0030.cbox                n_boxes=  67  EstWidth median=17.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0031.cbox                n_boxes=  46  EstWidth median=17.00  IQR=[17.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0032.cbox                n_boxes=  43  EstWidth median=17.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0033.cbox                n_boxes= 174  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0034.cbox                n_boxes= 172  EstWidth median=17.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0035.cbox                n_boxes= 162  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0036.cbox                n_boxes= 113  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0037.cbox                n_boxes= 119  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0038.cbox                n_boxes= 221  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0039.cbox                n_boxes= 460  EstWidth median=18.00  IQR=[17.00, 19.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0040.cbox                n_boxes=  26  EstWidth median=17.00  IQR=[17.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0041.cbox                n_boxes= 267  EstWidth median=17.00  IQR=[17.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0042.cbox                n_boxes=  92  EstWidth median=17.00  IQR=[17.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0043.cbox                n_boxes= 141  EstWidth median=17.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0044.cbox                n_boxes= 220  EstWidth median=16.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0045.cbox                n_boxes= 146  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0046.cbox                n_boxes= 291  EstWidth median=16.00  IQR=[16.00, 16.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0047.cbox                n_boxes=  36  EstWidth median=16.50  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0048.cbox                n_boxes= 194  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0049.cbox                n_boxes=  65  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0050.cbox                n_boxes=  48  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0051.cbox                n_boxes=  91  EstWidth median=20.00  IQR=[19.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0052.cbox                n_boxes=  73  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0053.cbox                n_boxes= 108  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0054.cbox                n_boxes=  81  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0055.cbox                n_boxes= 121  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0056.cbox                n_boxes= 108  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0057.cbox                n_boxes=  78  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0058.cbox                n_boxes=  73  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0059.cbox                n_boxes=  53  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0060.cbox                n_boxes= 186  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0061.cbox                n_boxes= 207  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0062.cbox                n_boxes= 240  EstWidth median=20.00  IQR=[19.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0063.cbox                n_boxes=  89  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0064.cbox                n_boxes= 141  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0065.cbox                n_boxes=  73  EstWidth median=17.00  IQR=[16.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0066.cbox                n_boxes= 105  EstWidth median=17.00  IQR=[17.00, 17.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0067.cbox                n_boxes= 243  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0068.cbox                n_boxes=  73  EstWidth median=18.00  IQR=[18.00, 19.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0069.cbox                n_boxes= 170  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0070.cbox                n_boxes= 120  EstWidth median=18.00  IQR=[17.00, 19.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0071.cbox                n_boxes=  67  EstWidth median=17.00  IQR=[17.00, 18.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0072.cbox                n_boxes= 104  EstWidth median=18.00  IQR=[17.00, 19.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0073.cbox                n_boxes= 108  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0074.cbox                n_boxes= 287  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0075.cbox                n_boxes=  78  EstWidth median=18.00  IQR=[17.25, 19.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0076.cbox                n_boxes= 108  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0077.cbox                n_boxes= 337  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0078.cbox                n_boxes= 457  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0079.cbox                n_boxes= 164  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0080.cbox                n_boxes=  88  EstWidth median=20.00  IQR=[19.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0081.cbox                n_boxes=  84  EstWidth median=20.00  IQR=[20.00, 20.00]
+  KMCB2_D8_RL_TMV_0.05mgmL_9300X_0082.cbox                n_boxes= 224  EstWidth median=20.00  IQR=[20.00, 20.00]
+
+Total boxes read (all files): 10937
+Total boxes with a valid _EstWidth: 10937
+
+--- Pooled _EstWidth summary (px), all files combined ---
+n=10937  median=18.000 px  IQR=[17.000, 20.000]
+
+[1] Estimate from _EstWidth alone (independent of both Kayleigh numbers)
+    TMV known width = 180.0 Aa (textbook, CLAUDE.md)
+    median _EstWidth (pooled, above) = 18.000 px
+    implied pixel size = 180.0 / 18.000 = 10.0000 Aa/px
+
+[2] The two candidates in circulation, stated plainly (no winner picked here)
+    Candidate A -- inspect_stars.m hardcoded literal: 1.05 Aa/px
+        implied filament width = 180.0 / 1.05 = 171.43 px
+        vs. measured median _EstWidth = 18.000 px
+    Candidate B -- Kayleigh's Napari Boxmanager calibration: 19.42 Aa/px
+        implied filament width = 180.0 / 19.42 = 9.27 px
+        vs. measured median _EstWidth = 18.000 px
+
+[3] Coordinate range sanity check (pooled across all files -- boxes span
+    multiple micrographs, so this is the union of box positions, not one
+    micrograph's frame; still useful as an order-of-magnitude check)
+    _CoordinateX range: [0.2, 1007.9] px  (span 1007.7 px)
+    _CoordinateY range: [0.1, 1007.9] px  (span 1007.9 px)
+    Magnification on record (from filenames): 9300x
+    Implied box-position span in real space, per candidate:
+        at 1.05 Aa/px (A): 105.8 x 105.8 nm
+        at 19.42 Aa/px (B): 1957.0 x 1957.3 nm
+    (No independent detector physical-pixel-size figure is available
+     locally, so this prints the implied span for each candidate without
+     asserting which is plausible -- judge against what you know of the
+     detector and this micrograph's actual frame size.)
+
+=== This script does not settle it. Two things do: ===
+  1. header <a real TMV .mrc file> |& grep -i pixel
+     (csh syntax, ghez. Real answer -- everything above is triangulation
+     while we wait for this.)
+  2. Whatever confirms how the 0.5150 px/nm / 19.42 Aa/px number in
+     Kayleigh's notebook was actually derived (scale-bar measurement?
+     known standard? a specific micrograph?) -- good corroborating
+     evidence, but not as authoritative as the header.

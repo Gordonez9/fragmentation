@@ -1,0 +1,8 @@
+﻿*.mrc
+*.star
+cbox_raw/
+archive/
+__pycache__/
+*.pyc
+
+.claude/settings.local.json
