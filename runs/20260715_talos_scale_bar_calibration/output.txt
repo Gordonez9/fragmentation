@@ -1,0 +1,83 @@
+=== measure_scale_bar.py -- per-folder scale-bar calibration ===
+Input directory: 20260710_TMV_TALOS
+Scale bar length assumed: 500.0 nm (user-confirmed, not OCR'd)
+.tif files found: 64
+
+  KMCB2_B3_RLTMV_22kx_001.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_002.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_003.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_004.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_005.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_006.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_007.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_008.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_009.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_010.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_011.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_012.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_013.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_014.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_015.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_016.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_017.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_018.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_019.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_020.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_021.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_022.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_023.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_024.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_025.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_026.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_027.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_028.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_029.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_030.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_031.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_032.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_033.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_034.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_035.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_036.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_037.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_038.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_039.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_040.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_041.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_042.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_043.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_044.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_045.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_046.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_047.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_048.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_049.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_050.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_051.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_052.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_053.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_054.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_055.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_056.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_057.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_058.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_059.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_060.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_061.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_062.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_063.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+  KMCB2_B3_RLTMV_22kx_064.tif              mag=22000x  outer=380.0px (13.158 Aa/px)  center=373.0px (13.405 Aa/px)
+
+Measured OK: 64 / 64
+
+--- Pooled result (n=64) ---
+outer-edge convention:  median=13.1579 Aa/px  IQR=[13.1579, 13.1579]  std=0.0000
+center-to-center conv:  median=13.4048 Aa/px  IQR=[13.4048, 13.4048]  std=0.0000
+
+Low std across files (if seen above) means the bar is drawn identically
+every frame, as expected for a fixed-magnification session -- that's a
+consistency check on this script, not a precision claim about the true
+Aa/px. The outer-edge vs. center-to-center gap is the real uncertainty;
+report a range, not a single number, until cross-checked another way
+(e.g. against a known camera physical pixel size + binning, or against
+a directly measured TMV virion in one of these images).

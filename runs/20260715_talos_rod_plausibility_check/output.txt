@@ -1,0 +1,19 @@
+=== measure_one_virion_talos.py -- single-rod plausibility check ===
+Input file: 20260710_TMV_TALOS/KMCB2_B3_RLTMV_22kx_001.tif
+Crop box (full-image px): (1450, 1150, 1800, 1750)
+Crop size: 350x600 px
+
+Connected components found: 582 (after opening). Using the largest (6192 px) as the rod.
+Rod pixel count: 6192
+Length (long-axis full extent): 498.9 px
+Width (1-99th percentile of short-axis spread): 25.7 px
+
+--- Converted to real units, both scale-bar candidates ---
+  outer-edge        (13.158 Aa/px): length=656.4 nm (textbook 300 nm)  width=33.8 nm (textbook 18 nm)
+  center-to-center  (13.405 Aa/px): length=668.7 nm (textbook 300 nm)  width=34.5 nm (textbook 18 nm)
+
+Judge plausibility yourself: is length within reason of a whole or
+clean partial virion, and is width close to 18 nm? Do not treat this
+as proof by itself -- one hand-picked rod is not a sample, it's a
+plausibility gate (CLAUDE.md: physical plausibility is a hard gate,
+not a rate estimate).

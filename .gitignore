@@ -1,8 +1,13 @@
 ﻿*.mrc
 *.star
+*.cbox
+*.tif
 cbox_raw/
 archive/
 __pycache__/
 *.pyc
+
+20260710_TMV_TALOS/
+runs/*/pngs_for_annotation/
 
 .claude/settings.local.json

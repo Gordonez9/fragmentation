@@ -26,6 +26,16 @@ and should run/test scripts against these locally — the user has explicitly au
 for local-subset work. Anything touching the full 82-micrograph set or ghez-only files
 (`.mrc`, `.tif`, `output_1/*`) cannot be run locally; ask the user to run it and paste output.
 
+**Second exception, added 2026-07-15: `20260710_TMV_TALOS/`.** The user dropped a whole new
+folder of 64 real TIFFs directly into the local repo (not a ghez pull, not a dev subset — the
+actual data), so unlike everything else in this constraint section, **Claude Code has full
+local access to it** and ran real analysis scripts against all 64 files directly, no
+round-trip needed. See "New dataset" section below — this is a materially different
+mode of working than the rest of this document assumes, worth remembering if more local
+image folders show up the same way. Local Python here (3.9, not ghez's 3.8) also has
+**scipy available**, unlike ghez's `fragviz` env — still don't assume scipy in anything
+meant to run on ghez.
+
 ghez conda env is `fragviz`: **Python 3.8, numpy + matplotlib + pillow only. No pandas, no
 scipy.** Target 3.8 syntax (no `match`, no `X | Y` unions). Write new scripts standalone
 (no imports from this repo's other `.py` files) so a single `scp` transfers everything needed.
@@ -132,6 +142,98 @@ pipeline produces gets checked against them, as a hard gate.
   per the selection-bias trap already hit once with the merge-proposal approach's TMV test
   cases (see below). Propose N and state what it buys vs. doesn't.
 
+## New dataset, 2026-07-15/16: `20260710_TMV_TALOS/` — a separate thread from Task 0-3 above
+
+The user added a whole new folder of 64 real TIFFs (`KMCB2_B3_RLTMV_22kx_001.tif` …
+`_064.tif`) directly into the local repo. **This is a different microscope session from
+everything above** — 22,000x indicated magnification, shot on a Talos F200C (confirmed from
+embedded FEI metadata, TIFF tag 34682), vs. the 9300x session Task 0 resolved to 19.14 Å/px.
+**Do not reuse 19.14 Å/px for this folder.** The two datasets are not interchangeable and nothing
+below touches or supersedes the Task 0-3 pipeline above — that work is still exactly where the
+"Task status" section left it (Task 0.5 still blocked on the user, Task 1-3 still not started).
+This TALOS thread happened in parallel because the user asked "what can we do with this?" when
+they dropped the folder in, not because Task 0.5 closed.
+
+**What got built, in order:**
+
+1. **`measure_scale_bar.py`** — every one of these TIFFs has a burned-in "⊢——⊣ 500 nm" caliper
+   scale bar rendered into the image itself (not just header metadata). This script locates it
+   by pixel intensity (caption strip = low row-mean, not low row-variance — bar/text rows are
+   sparse-bright-on-black so they have *high* variance, which broke the first version of the
+   row-detector; mean is what actually separates the caption strip from the micrograph). Run
+   against all 64 files: **identical result every time (std=0)** — 380px outer-tick-edge-to-edge
+   / 373px tick-center-to-center → **13.158 / 13.405 Å/px**. Visually confirmed by drawing the
+   detected edges back over the actual bar (`runs/20260715_talos_scale_bar_calibration/
+   tick_detection_overlay_file001.png`) — lines land exactly on the tick marks, not a fluke.
+   Report this range as this folder's Å/px, not a single number, until something resolves the
+   outer-edge-vs-center-to-center ambiguity (a real ~1.9% gap, not yet closed).
+
+2. **`measure_one_virion_talos.py`** — tried to cross-check the scale bar against one hand-picked,
+   isolated rod measured directly in the image (length + width via connected-component + PCA).
+   **Length came back plausible (~660nm, a plausible end-to-end aggregate), width did not
+   (~34nm vs. textbook 18nm)** — the naive dark-pixel threshold mask overcaptures because this
+   micrograph's background speckle noise dips below the same threshold near the rod (visually
+   obvious in `runs/20260715_talos_rod_plausibility_check/mask_overlay.png` — ragged "fingers",
+   not a clean edge). Tried fixing width via perpendicular intensity-profile FWHM instead — **that
+   made it worse** (~40px), because a single-line profile is too noisy on this image (background
+   swings 60-80 gray levels within a few px even away from the rod). Full honest writeup in
+   `runs/20260715_talos_rod_plausibility_check/notes.txt`. **Width-from-pixels on this dataset is
+   an open problem** — would need multi-line-averaged + smoothed profiles, not attempted.
+
+3. **`annotate_filaments.html`** — a manual ground-truth tracing UI, since the automated width
+   check stalled and the user wanted to hand-trace filaments anyway. Self-contained single-file
+   HTML/JS (no server, no deps, works off `file://`) — load PNGs, left-click to add polyline
+   points to a filament backbone, right-drag pans, scroll zooms, autosaves to
+   `localStorage` after every click, exports JSON with coordinates in original image pixel space.
+   64 TIFFs were pre-converted to PNG (`20260710_TMV_TALOS/png/`, gitignored — browsers can't
+   render this palette-mode TIFF) since the tool needs a browser-native format.
+   **The user traced deliberately including small broken pieces, overlapping/crossing
+   filaments, and edge-of-frame fragments** — this ground truth is intentionally NOT a
+   cherry-picked "clean filaments only" set, which matters for interpreting the length
+   distribution below.
+
+4. **The export button dumps the tool's entire session state every time**, not a diff — so
+   6 successive exports in `ground_truth_annotations/` turned out to be cumulative supersets of
+   each other (verified in code, not just by eye — `merge_ground_truth.py` fails loudly if it
+   ever finds two files disagreeing on the same image's filament data; on this data it found zero
+   conflicts). Ran it → `ground_truth_annotations/merged.json`: **94 filaments across 6 images**
+   (`026`, `033`, `042`, `050`, `061`, `063`), 280 traced points total.
+
+5. **`render_ground_truth_overlays.py`** — drew the merged traces back onto the source PNGs for
+   visual QC before trusting them (`runs/20260715_ground_truth_qc/*_overlay_preview.png`).
+   Reviewed the two densest images (26 and 45 filaments) directly — tracing held up cleanly even
+   through tangled crossover clusters, each color stayed on one physical rod. One thing flagged
+   but *not* resolved: in `026`'s overlay there are a couple of short dark streaks with no
+   colored trace over them — could be genuine missed small fragments or could be stain debris
+   that correctly wasn't traced; needs the user's eye, not something I can call from a screenshot.
+
+6. **`measure_ground_truth_lengths.py`** — arc length (sum of segment distances along each
+   polyline, not straight-line endpoint distance) converted to nm using both Å/px candidates
+   from step 1. **Result: median 315.9-321.9 nm, landing almost exactly on the textbook 300nm
+   virion length** — a genuinely independent confirmation of the scale-bar calibration, since
+   this ground truth has nothing to do with the scale bar and deliberately includes short/broken
+   fragments that should drag the median down, yet it still lands right on 300nm. All 94
+   filaments passed CLAUDE.md's 18nm physical-plausibility gate (min was 26.7nm). Max was
+   ~1550nm, consistent with the end-to-end aggregation CLAUDE.md already expects in negative
+   stain. Full per-filament table in `runs/20260715_ground_truth_lengths/output.txt`.
+
+**Small tooling/process changes made along the way, worth knowing about:**
+
+- `.gitignore` updated: added `*.cbox`, `*.tif`, `20260710_TMV_TALOS/`, and
+  `runs/*/pngs_for_annotation/`. The raw TALOS TIFFs/PNGs were previously **not** excluded
+  (only `cbox_raw/` was) — same "never commit data" policy CLAUDE.md already states for other
+  formats, just hadn't been applied to this new folder yet.
+- User asked for every script run to land in its own dated folder (`runs/<YYYYMMDD>_<label>/`)
+  instead of scattering output files — that convention is now used throughout this thread and
+  should probably be kept going forward for any new script, not just TALOS work.
+- `ground_truth_annotations/` is a new top-level folder, git-tracked (unlike the raw image
+  folders) since the JSON exports are lightweight coordinate data, not raw data.
+- **Flagged, not fixed:** `filament_lengths_tubeid.csv` (unrelated to this thread, from the
+  Task 0/0.5 pipeline above) shows a 1-character corruption in its header row (`micrograph,...`
+  → `1micrograph,...`) that appeared sometime around when the TALOS folder was added, before any
+  tool call in this session touched it. Not caused by this session's work — mentioned to the
+  user, left alone.
+
 ## What Worked
 
 - **Verifying pixel size empirically before building anything on it, rather than trusting
@@ -180,6 +282,8 @@ pipeline produces gets checked against them, as a hard gate.
 
 ## Next Steps
 
+**Task 0-3 pipeline (blocked, unchanged by the TALOS thread):**
+
 1. **Waiting on user** for Task 0.5 items 1 (tube-ID lengths at 19.14 Å/px — either pasted
    output or the script itself) and 2 (visual call on `..._0033`). Do not start Task 1 until
    both close, per the task file's explicit blocking order.
@@ -192,6 +296,30 @@ pipeline produces gets checked against them, as a hard gate.
    logic as a starting point for the greedy matcher, but build out the named-term link cost,
    swappable-matcher interface, crossover flagging, and CSV output it doesn't yet have.
 4. Confirm the ELN note draft (Task 0.5 item 3) was usable or get corrected wording.
+
+**TALOS thread (open, was mid-discussion when this handoff was written):**
+
+5. **Decide with the user which direction to take the TALOS ground truth next** — three options
+   were on the table, unanswered: (a) get crYOLO run on this folder on ghez to produce CBOX
+   output, so its boxes/chains can be overlaid against the 94-filament hand-traced ground truth
+   (the natural next validation step, but needs a ghez round-trip — no CBOX exists for this
+   folder yet); (b) grow the ground truth further (only 6 of 64 images are traced so far); (c)
+   plot the length distribution as a histogram before deciding anything else. No wrong answer,
+   just needs the user's call.
+6. If (a): write the exact crYOLO predict command for the user to run on ghez against
+   `20260710_TMV_TALOS/` (mirroring however `output_1` was originally generated — check
+   `logs/cmdlogs/` conventions per CLAUDE.md's note that output_1's own predict flags aren't
+   fully confirmed either), then once CBOX comes back, compare its boxes/chains against
+   `ground_truth_annotations/merged.json` for these same 6 images.
+7. The two small unresolved loose ends from this thread, worth someone's attention eventually:
+   the outer-edge-vs-center-to-center Å/px ambiguity (13.158 vs 13.405, ~1.9% apart, no
+   principled way to pick chosen yet) and the width-from-pixels method that didn't work
+   (`measure_one_virion_talos.py` — would need multi-line-averaged, smoothed intensity profiles,
+   not attempted). Neither is blocking; the scale-bar Å/px is already corroborated well enough
+   by the ground-truth median (~316-322nm vs. 300nm textbook) to use as-is.
+8. Ask the user to look at the couple of untraced dark streaks noted in image `026`'s QC overlay
+   (see item 5 in the TALOS section above) and confirm whether they're missed fragments or
+   debris — affects whether the ground truth is fully complete for that image.
 
 ---
 

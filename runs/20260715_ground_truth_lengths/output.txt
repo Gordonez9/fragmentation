@@ -1,0 +1,114 @@
+=== measure_ground_truth_lengths.py ===
+Input: ground_truth_annotations/merged.json
+Aa/px candidates: outer-edge=13.158, center-to-center=13.405 (from measure_scale_bar.py, this folder)
+
+--- Per-filament lengths ---
+image                            fil#   npts         px     nm (outer)      nm (center)
+KMCB2_B3_RLTMV_22kx_026.png         0      5      583.5          767.8            782.2
+KMCB2_B3_RLTMV_22kx_026.png         1      4      457.0          601.3            612.6
+KMCB2_B3_RLTMV_22kx_026.png         2      4      314.2          413.5            421.2
+KMCB2_B3_RLTMV_22kx_026.png         3      6      600.8          790.6            805.4
+KMCB2_B3_RLTMV_22kx_026.png         4      4      305.9          402.5            410.0
+KMCB2_B3_RLTMV_22kx_026.png         5      2      231.4          304.4            310.2
+KMCB2_B3_RLTMV_22kx_026.png         6      5      912.2         1200.3           1222.8
+KMCB2_B3_RLTMV_22kx_026.png         7      2      267.4          351.9            358.5
+KMCB2_B3_RLTMV_22kx_026.png         8      2      199.5          262.5            267.4
+KMCB2_B3_RLTMV_22kx_026.png         9      2      120.8          158.9            161.9
+KMCB2_B3_RLTMV_22kx_026.png        10      2      254.7          335.2            341.5
+KMCB2_B3_RLTMV_22kx_026.png        11      2      458.6          603.5            614.8
+KMCB2_B3_RLTMV_22kx_026.png        12      3      463.3          609.5            621.0
+KMCB2_B3_RLTMV_22kx_026.png        13      4      439.9          578.8            589.7
+KMCB2_B3_RLTMV_22kx_026.png        14      2      264.0          347.4            353.9
+KMCB2_B3_RLTMV_22kx_026.png        15      2      250.6          329.8            336.0
+KMCB2_B3_RLTMV_22kx_026.png        16      6      661.0          869.7            886.1
+KMCB2_B3_RLTMV_22kx_026.png        17      7      704.4          926.8            944.2
+KMCB2_B3_RLTMV_22kx_026.png        18     10      946.4         1245.3           1268.7
+KMCB2_B3_RLTMV_22kx_026.png        19      5      439.0          577.6            588.4
+KMCB2_B3_RLTMV_22kx_026.png        20      4      335.2          441.1            449.4
+KMCB2_B3_RLTMV_22kx_026.png        21      4      448.1          589.6            600.7
+KMCB2_B3_RLTMV_22kx_026.png        22      4      517.7          681.2            694.0
+KMCB2_B3_RLTMV_22kx_026.png        23      5      484.3          637.2            649.2
+KMCB2_B3_RLTMV_22kx_026.png        24      2      152.3          200.4            204.1
+KMCB2_B3_RLTMV_22kx_026.png        25      2      216.2          284.4            289.8
+KMCB2_B3_RLTMV_22kx_033.png         0      2      566.8          745.8            759.8
+KMCB2_B3_RLTMV_22kx_033.png         1      5      996.4         1311.1           1335.7
+KMCB2_B3_RLTMV_22kx_033.png         2      4      533.8          702.3            715.5
+KMCB2_B3_RLTMV_22kx_033.png         3      2       94.2          124.0            126.3
+KMCB2_B3_RLTMV_22kx_033.png         4      4      230.7          303.5            309.2
+KMCB2_B3_RLTMV_22kx_033.png         5      2       29.7           39.0             39.8
+KMCB2_B3_RLTMV_22kx_033.png         6      2       26.4           34.8             35.4
+KMCB2_B3_RLTMV_22kx_033.png         7      2       73.3           96.5             98.3
+KMCB2_B3_RLTMV_22kx_033.png         8      4      272.7          358.8            365.5
+KMCB2_B3_RLTMV_22kx_033.png         9      6      590.1          776.4            791.0
+KMCB2_B3_RLTMV_22kx_033.png        10      4      198.9          261.7            266.6
+KMCB2_B3_RLTMV_22kx_033.png        11      5      236.8          311.5            317.4
+KMCB2_B3_RLTMV_22kx_033.png        12      2      243.5          320.3            326.4
+KMCB2_B3_RLTMV_22kx_042.png         0      2      464.4          611.1            622.5
+KMCB2_B3_RLTMV_22kx_042.png         1      4      466.5          613.8            625.3
+KMCB2_B3_RLTMV_22kx_042.png         2      2       49.9           65.7             66.9
+KMCB2_B3_RLTMV_22kx_050.png         0      5      376.6          495.6            504.9
+KMCB2_B3_RLTMV_22kx_050.png         1      2       92.4          121.6            123.8
+KMCB2_B3_RLTMV_22kx_050.png         2      2      232.1          305.3            311.1
+KMCB2_B3_RLTMV_22kx_050.png         3      2       93.6          123.1            125.4
+KMCB2_B3_RLTMV_22kx_050.png         4      2      227.9          299.9            305.5
+KMCB2_B3_RLTMV_22kx_050.png         5      2       34.6           45.5             46.3
+KMCB2_B3_RLTMV_22kx_050.png         6      2       49.6           65.2             66.5
+KMCB2_B3_RLTMV_22kx_050.png         7      2       68.5           90.2             91.9
+KMCB2_B3_RLTMV_22kx_050.png         8      7     1006.2         1323.9           1348.8
+KMCB2_B3_RLTMV_22kx_050.png         9      2       62.7           82.5             84.1
+KMCB2_B3_RLTMV_22kx_050.png        10      2       20.3           26.7             27.2
+KMCB2_B3_RLTMV_22kx_050.png        11      2      252.6          332.4            338.6
+KMCB2_B3_RLTMV_22kx_050.png        12      2      230.6          303.4            309.1
+KMCB2_B3_RLTMV_22kx_050.png        13      4      286.4          376.8            383.9
+KMCB2_B3_RLTMV_22kx_050.png        14      4      520.3          684.6            697.4
+KMCB2_B3_RLTMV_22kx_050.png        15      3      213.0          280.2            285.5
+KMCB2_B3_RLTMV_22kx_050.png        16      2       50.3           66.1             67.4
+KMCB2_B3_RLTMV_22kx_050.png        17      2       86.3          113.6            115.7
+KMCB2_B3_RLTMV_22kx_050.png        18      2      233.0          306.6            312.4
+KMCB2_B3_RLTMV_22kx_050.png        19      5      441.9          581.5            592.4
+KMCB2_B3_RLTMV_22kx_050.png        20      3      216.7          285.1            290.5
+KMCB2_B3_RLTMV_22kx_050.png        21      2       52.5           69.1             70.4
+KMCB2_B3_RLTMV_22kx_050.png        22      2      288.7          379.9            387.0
+KMCB2_B3_RLTMV_22kx_050.png        23      2      227.2          299.0            304.6
+KMCB2_B3_RLTMV_22kx_050.png        24      2      262.2          345.0            351.5
+KMCB2_B3_RLTMV_22kx_050.png        25      2      233.5          307.2            313.0
+KMCB2_B3_RLTMV_22kx_050.png        26      2       44.1           58.0             59.1
+KMCB2_B3_RLTMV_22kx_050.png        27      2       55.6           73.2             74.6
+KMCB2_B3_RLTMV_22kx_050.png        28      2       52.8           69.5             70.8
+KMCB2_B3_RLTMV_22kx_050.png        29      2      172.1          226.4            230.7
+KMCB2_B3_RLTMV_22kx_050.png        30      2      251.3          330.7            336.9
+KMCB2_B3_RLTMV_22kx_050.png        31      2      257.4          338.7            345.1
+KMCB2_B3_RLTMV_22kx_050.png        32      2      148.7          195.7            199.4
+KMCB2_B3_RLTMV_22kx_050.png        33      2      101.7          133.8            136.3
+KMCB2_B3_RLTMV_22kx_050.png        34      2      229.2          301.6            307.3
+KMCB2_B3_RLTMV_22kx_050.png        35      2      228.7          300.9            306.5
+KMCB2_B3_RLTMV_22kx_050.png        36      2       31.6           41.6             42.4
+KMCB2_B3_RLTMV_22kx_050.png        37      2      224.7          295.7            301.3
+KMCB2_B3_RLTMV_22kx_050.png        38      2      134.7          177.2            180.5
+KMCB2_B3_RLTMV_22kx_050.png        39      2      121.9          160.4            163.4
+KMCB2_B3_RLTMV_22kx_050.png        40      2      197.5          259.9            264.8
+KMCB2_B3_RLTMV_22kx_050.png        41      2      463.2          609.5            620.9
+KMCB2_B3_RLTMV_22kx_050.png        42      2      486.6          640.3            652.3
+KMCB2_B3_RLTMV_22kx_050.png        43      2       49.3           64.9             66.1
+KMCB2_B3_RLTMV_22kx_050.png        44      2      262.4          345.2            351.7
+KMCB2_B3_RLTMV_22kx_061.png         0      2      618.5          813.8            829.1
+KMCB2_B3_RLTMV_22kx_061.png         1      7     1172.2         1542.4           1571.4
+KMCB2_B3_RLTMV_22kx_061.png         2      4      395.8          520.7            530.5
+KMCB2_B3_RLTMV_22kx_063.png         0      2      680.9          895.9            912.7
+KMCB2_B3_RLTMV_22kx_063.png         1      2      530.6          698.1            711.2
+KMCB2_B3_RLTMV_22kx_063.png         2      2      165.9          218.2            222.3
+KMCB2_B3_RLTMV_22kx_063.png         3      2      214.9          282.8            288.1
+
+--- Summary (n=94 traced filaments, 6 images) ---
+  outer-edge Aa/px         min=26.7  median=315.9  max=1542.4  mean=409.5 nm
+  center-to-center Aa/px   min=27.2  median=321.9  max=1571.4  mean=417.2 nm
+
+Filaments below the 18 nm plausibility gate: 0 / 94
+(Not an error by itself -- this ground truth deliberately includes small
+broken pieces and edge fragments. Judge against what's visible in the
+runs/20260715_ground_truth_qc/ overlays, not against this number alone.)
+
+Textbook virion: 300 nm long. Median above should be judged against that
+with the fragmentation/aggregation caveat in mind -- this set was NOT
+selected to be 'clean' filaments, so agreement or disagreement with 300 nm
+here is not itself a validation of anything yet.

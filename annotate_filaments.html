@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TMV filament ground-truth tracer</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1e1e1e; color: #ddd; font-family: -apple-system, sans-serif; overflow: hidden; }
+  #app { display: flex; height: 100%; }
+  #sidebar { width: 280px; flex: none; background: #252525; padding: 12px; box-sizing: border-box; overflow-y: auto; border-right: 1px solid #444; }
+  #sidebar h2 { font-size: 14px; margin: 0 0 8px; color: #fff; }
+  #sidebar button, #sidebar input[type=file] { width: 100%; box-sizing: border-box; margin-bottom: 6px; padding: 6px; background: #3a3a3a; color: #ddd; border: 1px solid #555; border-radius: 4px; cursor: pointer; font-size: 12px; }
+  #sidebar button:hover { background: #4a4a4a; }
+  #sidebar button.danger:hover { background: #6a2a2a; }
+  #imageList { list-style: none; padding: 0; margin: 8px 0; font-size: 12px; }
+  #imageList li { padding: 5px 6px; cursor: pointer; border-radius: 3px; display: flex; justify-content: space-between; }
+  #imageList li:hover { background: #333; }
+  #imageList li.active { background: #2d5c8a; color: #fff; }
+  #imageList li .count { color: #9c9; }
+  #imageList li.empty .count { color: #777; }
+  hr { border: none; border-top: 1px solid #444; margin: 10px 0; }
+  #canvasWrap { flex: 1; position: relative; overflow: hidden; background: #111; }
+  canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+  #statusBar { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.75); color: #ccc; font-size: 12px; padding: 6px 10px; display: flex; gap: 18px; font-family: monospace; }
+  #hint { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.7); padding: 8px 10px; border-radius: 4px; font-size: 11px; line-height: 1.6; max-width: 300px; }
+  #hint b { color: #fff; }
+  .filLabel { font-size: 10px; color: #999; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <h2>TMV filament tracer</h2>
+    <input type="file" id="fileInput" multiple accept="image/png,image/jpeg">
+    <button id="btnNewFil">New filament (N)</button>
+    <button id="btnUndo">Undo point (U)</button>
+    <button id="btnDelFil" class="danger">Delete active filament (Del)</button>
+    <button id="btnClearImg" class="danger">Clear all on this image</button>
+    <hr>
+    <button id="btnFit">Fit to window (F)</button>
+    <hr>
+    <button id="btnExport">Export annotations (JSON)</button>
+    <input type="file" id="importInput" accept="application/json">
+    <div class="filLabel">Import a previously exported JSON to resume.</div>
+    <hr>
+    <div class="filLabel" id="autosaveNote"></div>
+    <ul id="imageList"></ul>
+  </div>
+  <div id="canvasWrap">
+    <canvas id="canvas"></canvas>
+    <div id="hint">
+      <b>Left click</b>: add point to active filament<br>
+      <b>Right-drag</b>: pan &nbsp; <b>Scroll</b>: zoom<br>
+      <b>N</b>: new filament &nbsp; <b>U</b>: undo point<br>
+      <b>Del</b>: delete active filament<br>
+      <b>&larr; / &rarr;</b>: prev/next image &nbsp; <b>F</b>: fit<br>
+      Click near a filament's own last point to <b>close/finish</b> it, or just press N.
+    </div>
+    <div id="statusBar"></div>
+  </div>
+</div>
+<script>
+const COLORS = ['#ff4d4d','#4dff4d','#4d9fff','#ffd24d','#ff4dff','#4dffff','#ff9d4d','#c04dff','#9dff4d','#ff4d9d'];
+const AUTOSAVE_KEY = 'tmv_filament_annotations_v1';
+
+let images = [];      // {name, img, width, height, filaments: [[{x,y},...],...], activeFilament: idx|null, view:{scale,offX,offY}}
+let currentIndex = -1;
+let panning = false, panStart = null, viewStart = null;
+let dragMoved = false;
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const wrap = document.getElementById('canvasWrap');
+
+function resizeCanvas() {
+  canvas.width = wrap.clientWidth;
+  canvas.height = wrap.clientHeight;
+  draw();
+}
+window.addEventListener('resize', resizeCanvas);
+
+function cur() { return currentIndex >= 0 ? images[currentIndex] : null; }
+
+function fitToWindow(im) {
+  const scale = Math.min(canvas.width / im.width, canvas.height / im.height) * 0.95;
+  im.view = { scale, offX: (canvas.width - im.width*scale)/2, offY: (canvas.height - im.height*scale)/2 };
+}
+
+function imgToCanvas(im, x, y) {
+  return { x: x*im.view.scale + im.view.offX, y: y*im.view.scale + im.view.offY };
+}
+function canvasToImg(im, x, y) {
+  return { x: (x - im.view.offX)/im.view.scale, y: (y - im.view.offY)/im.view.scale };
+}
+
+function draw() {
+  ctx.fillStyle = '#111';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  const im = cur();
+  if (!im) { renderStatus(); return; }
+  if (!im.img) {
+    ctx.fillStyle = '#888';
+    ctx.font = '14px sans-serif';
+    ctx.fillText('Annotations imported for ' + im.name + ' but the PNG itself is not loaded yet.', 20, 30);
+    ctx.fillText('Use "Load Images" and select it to see the overlay.', 20, 50);
+    renderStatus();
+    return;
+  }
+  ctx.drawImage(im.img, im.view.offX, im.view.offY, im.width*im.view.scale, im.height*im.view.scale);
+
+  im.filaments.forEach((fil, fi) => {
+    if (fil.length === 0) return;
+    const color = COLORS[fi % COLORS.length];
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = fi === im.activeFilament ? 2.5 : 1.5;
+    ctx.beginPath();
+    fil.forEach((p, i) => {
+      const c = imgToCanvas(im, p.x, p.y);
+      if (i === 0) ctx.moveTo(c.x, c.y); else ctx.lineTo(c.x, c.y);
+    });
+    ctx.stroke();
+    fil.forEach((p, i) => {
+      const c = imgToCanvas(im, p.x, p.y);
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, fi === im.activeFilament ? 4 : 3, 0, 2*Math.PI);
+      ctx.fill();
+    });
+  });
+  renderStatus();
+}
+
+function renderStatus() {
+  const im = cur();
+  const bar = document.getElementById('statusBar');
+  if (!im) { bar.textContent = 'No image loaded.'; return; }
+  const activeLen = im.activeFilament != null ? im.filaments[im.activeFilament].length : 0;
+  bar.innerHTML = `<span>${im.name}</span><span>${im.width}x${im.height}px</span>` +
+    `<span>zoom ${(im.view.scale*100).toFixed(0)}%</span>` +
+    `<span>${im.filaments.length} filament(s)</span>` +
+    `<span>active filament: ${im.activeFilament==null?'none':im.activeFilament+1} (${activeLen} pts)</span>`;
+}
+
+function renderList() {
+  const ul = document.getElementById('imageList');
+  ul.innerHTML = '';
+  images.forEach((im, i) => {
+    const li = document.createElement('li');
+    const nPts = im.filaments.reduce((a,f)=>a+f.length, 0);
+    li.className = (i === currentIndex ? 'active ' : '') + (im.filaments.length===0 ? 'empty' : '');
+    li.innerHTML = `<span>${im.name}</span><span class="count">${im.filaments.length}f / ${nPts}pt</span>`;
+    li.onclick = () => switchTo(i);
+    ul.appendChild(li);
+  });
+}
+
+function switchTo(i) {
+  currentIndex = i;
+  renderList();
+  draw();
+}
+
+function newFilament() {
+  const im = cur(); if (!im) return;
+  im.filaments.push([]);
+  im.activeFilament = im.filaments.length - 1;
+  renderList(); draw(); autosave();
+}
+
+function ensureActive() {
+  const im = cur(); if (!im) return;
+  if (im.activeFilament == null || !im.filaments[im.activeFilament]) newFilament();
+}
+
+function loadFiles(fileList) {
+  const files = Array.from(fileList).sort((a,b) => a.name.localeCompare(b.name));
+  const currentName = currentIndex >= 0 ? images[currentIndex].name : null;
+  let pending = files.length;
+  files.forEach(file => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const existing = images.find(x => x.name === file.name);
+      const rec = existing || { name: file.name, img, width: img.width, height: img.height, filaments: [], activeFilament: null };
+      rec.img = img; rec.width = img.width; rec.height = img.height;
+      if (!existing) images.push(rec);
+      fitToWindow(rec);
+      pending--;
+      if (pending === 0) {
+        images.sort((a,b) => a.name.localeCompare(b.name));
+        // Re-sorting can shift array positions -- re-find the previously
+        // active image by name rather than trusting the old numeric index,
+        // so a second batch load can't silently swap which image is "current".
+        currentIndex = currentName ? images.findIndex(x => x.name === currentName) : 0;
+        if (currentIndex < 0) currentIndex = 0;
+        restoreAutosaveInto();
+        renderList(); draw();
+      }
+    };
+    img.src = url;
+  });
+}
+
+document.getElementById('fileInput').addEventListener('change', e => loadFiles(e.target.files));
+
+document.getElementById('btnNewFil').onclick = newFilament;
+document.getElementById('btnUndo').onclick = () => {
+  const im = cur(); if (!im || im.activeFilament == null) return;
+  im.filaments[im.activeFilament].pop();
+  draw(); renderList(); autosave();
+};
+document.getElementById('btnDelFil').onclick = () => {
+  const im = cur(); if (!im || im.activeFilament == null) return;
+  im.filaments.splice(im.activeFilament, 1);
+  im.activeFilament = im.filaments.length ? im.filaments.length - 1 : null;
+  draw(); renderList(); autosave();
+};
+document.getElementById('btnClearImg').onclick = () => {
+  const im = cur(); if (!im) return;
+  if (!confirm('Clear all filaments on ' + im.name + '?')) return;
+  im.filaments = []; im.activeFilament = null;
+  draw(); renderList(); autosave();
+};
+document.getElementById('btnFit').onclick = () => { const im = cur(); if (im) { fitToWindow(im); draw(); } };
+
+document.getElementById('btnExport').onclick = () => {
+  const out = { version: 1, exported_at: new Date().toISOString(), images: {} };
+  images.forEach(im => {
+    out.images[im.name] = {
+      width: im.width, height: im.height,
+      filaments: im.filaments.filter(f => f.length > 0).map(f => f.map(p => [Math.round(p.x*100)/100, Math.round(p.y*100)/100]))
+    };
+  });
+  const blob = new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tmv_talos_filament_annotations.json';
+  a.click();
+};
+
+document.getElementById('importInput').addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      applyAnnotationData(data);
+      renderList(); draw(); autosave();
+      alert('Imported annotations for ' + Object.keys(data.images).length + ' image(s). Load the matching PNGs (if not already loaded) to see them.');
+    } catch (err) { alert('Could not parse JSON: ' + err.message); }
+  };
+  reader.readAsText(file);
+});
+
+function applyAnnotationData(data) {
+  Object.entries(data.images).forEach(([name, rec]) => {
+    let im = images.find(x => x.name === name);
+    const filaments = rec.filaments.map(f => f.map(([x,y]) => ({x,y})));
+    if (im) {
+      im.filaments = filaments;
+      im.activeFilament = filaments.length ? filaments.length - 1 : null;
+    } else {
+      // placeholder until the PNG itself is loaded
+      images.push({ name, img: null, width: rec.width, height: rec.height, filaments, activeFilament: null, view: {scale:1,offX:0,offY:0}, pending: true });
+    }
+  });
+}
+
+function autosave() {
+  const out = { images: {} };
+  images.forEach(im => {
+    out.images[im.name] = { width: im.width, height: im.height, filaments: im.filaments };
+  });
+  localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(out));
+  document.getElementById('autosaveNote').textContent = 'Autosaved to browser storage ' + new Date().toLocaleTimeString();
+}
+
+function restoreAutosaveInto() {
+  const raw = localStorage.getItem(AUTOSAVE_KEY);
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    Object.entries(data.images).forEach(([name, rec]) => {
+      const im = images.find(x => x.name === name);
+      if (im && im.filaments.length === 0 && rec.filaments && rec.filaments.length) {
+        im.filaments = rec.filaments;
+        im.activeFilament = im.filaments.length - 1;
+      }
+    });
+  } catch (e) { /* ignore corrupt autosave */ }
+}
+
+// --- mouse interaction ---
+canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+canvas.addEventListener('mousedown', e => {
+  const im = cur(); if (!im) return;
+  dragMoved = false;
+  if (e.button === 2) {
+    panning = true;
+    panStart = {x: e.clientX, y: e.clientY};
+    viewStart = {offX: im.view.offX, offY: im.view.offY};
+  }
+});
+
+canvas.addEventListener('mousemove', e => {
+  const im = cur(); if (!im) return;
+  if (panning) {
+    dragMoved = true;
+    im.view.offX = viewStart.offX + (e.clientX - panStart.x);
+    im.view.offY = viewStart.offY + (e.clientY - panStart.y);
+    draw();
+  }
+});
+
+window.addEventListener('mouseup', e => {
+  if (e.button === 2) panning = false;
+});
+
+canvas.addEventListener('click', e => {
+  const im = cur(); if (!im || !im.img || panning) return;
+  ensureActive();
+  const rect = canvas.getBoundingClientRect();
+  const p = canvasToImg(im, e.clientX - rect.left, e.clientY - rect.top);
+  im.filaments[im.activeFilament].push(p);
+  draw(); renderList(); autosave();
+});
+
+canvas.addEventListener('wheel', e => {
+  const im = cur(); if (!im) return;
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const before = canvasToImg(im, mx, my);
+  const factor = e.deltaY < 0 ? 1.15 : 1/1.15;
+  im.view.scale *= factor;
+  im.view.scale = Math.max(0.02, Math.min(im.view.scale, 20));
+  const after = imgToCanvas(im, before.x, before.y);
+  im.view.offX += mx - after.x;
+  im.view.offY += my - after.y;
+  draw();
+}, {passive:false});
+
+window.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  const im = cur();
+  if (e.key === 'n' || e.key === 'N') newFilament();
+  else if (e.key === 'u' || e.key === 'U') document.getElementById('btnUndo').click();
+  else if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); document.getElementById('btnDelFil').click(); }
+  else if (e.key === 'f' || e.key === 'F') document.getElementById('btnFit').click();
+  else if (e.key === 'ArrowRight') { if (currentIndex < images.length-1) switchTo(currentIndex+1); }
+  else if (e.key === 'ArrowLeft') { if (currentIndex > 0) switchTo(currentIndex-1); }
+});
+
+resizeCanvas();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+Notes on this run (not captured by the script's own stdout)
+=============================================================
+
+length=656-669 nm, width=33.8-34.5 nm from measure_one_virion_talos.py's
+threshold-mask method (output.txt in this folder).
+
+Width does NOT survive scrutiny -- do not cite it.
+--------------------------------------------------
+mask_overlay.png shows why: the dark-pixel threshold mask (red) has ragged
+"fingers" reaching several px beyond the rod's true edge, because this
+micrograph's background speckle noise dips below the same threshold in
+patches near the rod. That inflates the 1st-99th-percentile width measure.
+Tried a fix -- perpendicular intensity-profile FWHM at 7 points along the rod
+(profile_lines.png shows where) -- and it got WORSE (mean ~40px), because a
+single-line profile is too noisy on this image: background intensity swings
+by 60-80 gray levels within a handful of pixels even away from the rod (see
+raw profile printed to terminal during this session, not saved to a file).
+Would need multi-line averaging + smoothing perpendicular to the rod axis to
+get a trustworthy width this way -- not done here.
+
+Length is more trustworthy than width.
+---------------------------------------
+The long-axis extent is set by the two rod tips, which are visually
+unambiguous in rod_crop.png (clean, isolated, doesn't touch the mask's ragged
+edges the way the width measurement does). 656-669 nm is ~2.2x a single 300 nm
+virion -- plausible as an end-to-end aggregate in negative stain (CLAUDE.md
+already flags this as expected behavior, and previously noted a corrected
+case reaching ~1320 nm), not evidence of a pixel-size error by itself. But
+it's one hand-picked rod, not a sample -- do not generalize from it.
+
+Bottom line for this run: treat it as "length is in a plausible ballpark,
+width measurement needs a better method before it means anything," not as a
+clean confirmation of the scale-bar Aa/px. The scale-bar calibration itself
+(runs/20260715_talos_scale_bar_calibration/) doesn't depend on this and
+stands on its own -- it was checked by direct visual overlay on the tick
+marks, not by this rod.
